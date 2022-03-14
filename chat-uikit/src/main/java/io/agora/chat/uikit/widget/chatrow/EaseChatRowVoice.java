@@ -41,6 +41,8 @@ public class EaseChatRowVoice extends EaseChatRowFile {
         voiceImageView = ((ImageView) findViewById(R.id.iv_voice));
         voiceLengthView = (TextView) findViewById(R.id.tv_length);
         readStatusView = (ImageView) findViewById(R.id.iv_unread_voice);
+        reactionContentView = findViewById(R.id.tv_subReactionContent);
+        reactionContainerGroup = findViewById(R.id.reaction_group);
     }
 
     @Override
@@ -95,6 +97,7 @@ public class EaseChatRowVoice extends EaseChatRowFile {
         if (voicePlayer.isPlaying() && message.getMsgId().equals(voicePlayer.getCurrentPlayingId())) {
             startVoicePlayAnimation();
         }
+        onSetUpReactionView();
     }
 
     @Override

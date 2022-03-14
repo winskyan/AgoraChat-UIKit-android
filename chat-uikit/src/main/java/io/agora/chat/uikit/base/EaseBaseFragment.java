@@ -1,6 +1,5 @@
 package io.agora.chat.uikit.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
@@ -8,19 +7,20 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import io.agora.chat.uikit.manager.EaseThreadManager;
 
 
 public class EaseBaseFragment extends Fragment {
-    public Activity mContext;
+    public AppCompatActivity mContext;
     public boolean onClickBackPress;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mContext = (Activity) context;
+        mContext = (AppCompatActivity) context;
     }
 
     /**

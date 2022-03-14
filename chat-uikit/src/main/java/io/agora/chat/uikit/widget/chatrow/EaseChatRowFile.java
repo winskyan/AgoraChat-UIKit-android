@@ -57,6 +57,8 @@ public class EaseChatRowFile extends EaseChatRow {
         fileStateView = (TextView) findViewById(R.id.tv_file_state);
         percentageView = (TextView) findViewById(R.id.percentage);
         ivFileIcon = findViewById(R.id.iv_file_icon);
+        reactionContentView = findViewById(R.id.tv_subReactionContent);
+        reactionContainerGroup = findViewById(R.id.reaction_group);
 	}
 
 	@Override
@@ -81,6 +83,7 @@ public class EaseChatRowFile extends EaseChatRow {
                 fileStateView.setText(R.string.ease_did_not_download);
             }
         }
+        onSetUpReactionView();
 	}
 
     @Override

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import io.agora.CallBack;
+import io.agora.ValueCallBack;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
 import io.agora.chat.CmdMessageBody;
@@ -260,5 +261,44 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
         }
         return createSuccess ? file.getAbsolutePath() : "";
     }
+
+    @Override
+    public void addReaction(ChatMessage message, String reaction) {
+        ChatClient.getInstance().reactionManager().asyncAddReaction(message.getMsgId(), reaction, new ValueCallBack<String>() {
+            @Override
+            public void onSuccess(String value) {
+                if (isActive()) {
+                    runOnUI(() -> mView.addReactionMessageSuccess(message));
+                }
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+                if (isActive()) {
+                    runOnUI(() -> mView.addReactionMessageFail(message, error, errorMsg));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void removeReaction(ChatMessage message, String reaction) {
+        ChatClient.getInstance().reactionManager().asyncRemoveReaction(message.getMsgId(), reaction, new ValueCallBack<String>() {
+            @Override
+            public void onSuccess(String value) {
+                if (isActive()) {
+                    runOnUI(() -> mView.removeReactionMessageSuccess(message));
+                }
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+                if (isActive()) {
+                    runOnUI(() -> mView.removeReactionMessageFail(message, error, errorMsg));
+                }
+            }
+        });
+    }
+
 }
 

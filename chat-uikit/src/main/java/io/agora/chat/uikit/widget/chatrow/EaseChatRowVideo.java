@@ -46,6 +46,8 @@ public class EaseChatRowVideo extends EaseChatRowFile {
         timeLengthView = (TextView) findViewById(R.id.chatting_length_iv);
         playView = (ImageView) findViewById(R.id.chatting_status_btn);
         percentageView = (TextView) findViewById(R.id.percentage);
+        reactionContentView = findViewById(R.id.tv_subReactionContent);
+        reactionContainerGroup = findViewById(R.id.reaction_group);
 	}
 
 	@Override
@@ -105,6 +107,7 @@ public class EaseChatRowVideo extends EaseChatRowFile {
                 showVideoThumbView(message);
             }
         }
+        onSetUpReactionView();
 	}
 
     /**

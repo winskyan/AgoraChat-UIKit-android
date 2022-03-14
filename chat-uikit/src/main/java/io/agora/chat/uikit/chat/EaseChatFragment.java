@@ -25,6 +25,9 @@ import java.io.File;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
 import io.agora.chat.uikit.R;
+import io.agora.chat.uikit.activities.EaseImageGridActivity;
+import io.agora.chat.uikit.activities.EaseShowLocalVideoActivity;
+import io.agora.chat.uikit.activities.EaseShowVideoActivity;
 import io.agora.chat.uikit.base.EaseBaseFragment;
 import io.agora.chat.uikit.chat.adapter.EaseMessageAdapter;
 import io.agora.chat.uikit.chat.interfaces.OnAddMsgAttrsBeforeSendEvent;
@@ -35,6 +38,7 @@ import io.agora.chat.uikit.chat.interfaces.OnChatLayoutListener;
 import io.agora.chat.uikit.chat.interfaces.OnChatRecordTouchListener;
 import io.agora.chat.uikit.chat.interfaces.OnMessageSendCallBack;
 import io.agora.chat.uikit.chat.interfaces.OnPeerTypingListener;
+import io.agora.chat.uikit.chat.interfaces.OnReactionMessageListener;
 import io.agora.chat.uikit.chat.widget.EaseChatExtendMenuDialog;
 import io.agora.chat.uikit.chat.widget.EaseChatMessageListLayout;
 import io.agora.chat.uikit.chat.model.EaseInputMenuStyle;
@@ -49,10 +53,11 @@ import io.agora.chat.uikit.utils.EaseUtils;
 import io.agora.chat.uikit.widget.EaseTitleBar;
 import io.agora.chat.uikit.widget.dialog.EaseAlertDialog;
 import io.agora.util.EMLog;
+import io.agora.util.FileHelper;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
-public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutListener, OnMenuChangeListener, OnAddMsgAttrsBeforeSendEvent, OnChatRecordTouchListener {
+public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutListener, OnMenuChangeListener, OnAddMsgAttrsBeforeSendEvent, OnChatRecordTouchListener, OnReactionMessageListener {
     protected static final int REQUEST_CODE_MAP = 1;
     protected static final int REQUEST_CODE_CAMERA = 2;
     protected static final int REQUEST_CODE_LOCAL = 3;
@@ -202,6 +207,7 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
         chatLayout.setOnPopupWindowItemClickListener(this);
         chatLayout.setOnAddMsgAttrsBeforeSendEvent(sendMsgEvent != null ? sendMsgEvent : this);
         chatLayout.setOnChatRecordTouchListener(recordTouchListener != null ? recordTouchListener : this);
+        chatLayout.setOnReactionListener(this);
     }
 
     public void initData() {
@@ -365,8 +371,10 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
                 onActivityResultForLocalPhotos(data);
             } else if (requestCode == REQUEST_CODE_DING_MSG) { // To send the ding-type msg.
                 onActivityResultForDingMsg(data);
-            }else if(requestCode == REQUEST_CODE_SELECT_FILE) {
+            } else if (requestCode == REQUEST_CODE_SELECT_FILE) {
                 onActivityResultForLocalFiles(data);
+            } else if (REQUEST_CODE_SELECT_VIDEO == requestCode) {
+                onActivityResultForLocalVideos(data);
             }
         }
     }
@@ -398,7 +406,8 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
      * select local video
      */
     protected void selectVideoFromLocal() {
-
+        Intent intent = new Intent(getActivity(), EaseImageGridActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
     }
 
     /**
@@ -468,6 +477,21 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
         }
     }
 
+    protected void onActivityResultForLocalVideos(@Nullable Intent data) {
+        if (data != null) {
+            int duration = data.getIntExtra("dur", 0);
+            String videoPath = data.getStringExtra("path");
+            String uriString = data.getStringExtra("uri");
+            EMLog.d(TAG, "path = " + videoPath + " uriString = " + uriString);
+            if (!TextUtils.isEmpty(videoPath)) {
+                chatLayout.sendVideoMessage(Uri.parse(videoPath), duration);
+            } else {
+                Uri videoUri = FileHelper.getInstance().formatInUri(uriString);
+                chatLayout.sendVideoMessage(videoUri, duration);
+            }
+        }
+    }
+
     protected boolean checkSdCardExist() {
         return EaseUtils.isSdcardExist();
     }
@@ -496,6 +520,26 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
     @Override
     public boolean onRecordTouch(View v, MotionEvent event) {
         return true;
+    }
+
+    @Override
+    public void addReactionMessageSuccess(ChatMessage message) {
+
+    }
+
+    @Override
+    public void addReactionMessageFail(ChatMessage message, int code, String error) {
+
+    }
+
+    @Override
+    public void removeReactionMessageSuccess(ChatMessage message) {
+
+    }
+
+    @Override
+    public void removeReactionMessageFail(ChatMessage message, int code, String error) {
+
     }
 
     public static class Builder {

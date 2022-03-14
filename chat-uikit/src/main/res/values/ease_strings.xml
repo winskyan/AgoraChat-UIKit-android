@@ -42,11 +42,11 @@
     <string name="ease_did_not_download">Not downloaded</string>
 
     <string name="ease_attach_smile">Emojis</string>
-    <string name="ease_attach_picture">Album</string>
+    <string name="ease_attach_picture">Photo</string>
     <string name="ease_attach_take_pic">Camera</string>
     <string name="ease_attach_location">Location</string>
     <string name="ease_attach_video">Videos</string>
-    <string name="ease_attach_file">Files</string>
+    <string name="ease_attach_file">Attachments</string>
 
     <string name="ease_button_pushtotalk">Press and hold to speak</string>
     <string name="ease_button_pushtotalk_pressed">Release to send message</string>
@@ -79,5 +79,7 @@
     <string name="ease_file_expired">File expired:</string>
     <string name="ease_download_the_pictures">Downloading image: 0%</string>
     <string name="ease_download_the_pictures_new">Downloading image:</string>
-
+    <string name="action_reaction">Reactions</string>
+    <string name="ease_title_image_grid">Camera and Video</string>
+    <string name="ease_take_video_capture">Shoot video</string>
 </resources>

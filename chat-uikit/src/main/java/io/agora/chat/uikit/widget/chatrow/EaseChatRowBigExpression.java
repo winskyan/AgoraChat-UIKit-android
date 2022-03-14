@@ -39,6 +39,8 @@ public class EaseChatRowBigExpression extends EaseChatRowText {
     protected void onFindViewById() {
         percentageView = (TextView) findViewById(R.id.percentage);
         imageView = (ImageView) findViewById(R.id.image);
+        reactionContentView = findViewById(R.id.tv_subReactionContent);
+        reactionContainerGroup = findViewById(R.id.reaction_group);
     }
 
     @Override
@@ -62,5 +64,6 @@ public class EaseChatRowBigExpression extends EaseChatRowText {
                 imageView.setImageResource(R.drawable.ease_default_expression);
             }
         }
+        onSetUpReactionView();
     }
 }
