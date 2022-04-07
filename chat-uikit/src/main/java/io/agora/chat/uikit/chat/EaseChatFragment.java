@@ -26,8 +26,6 @@ import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
 import io.agora.chat.uikit.R;
 import io.agora.chat.uikit.activities.EaseImageGridActivity;
-import io.agora.chat.uikit.activities.EaseShowLocalVideoActivity;
-import io.agora.chat.uikit.activities.EaseShowVideoActivity;
 import io.agora.chat.uikit.base.EaseBaseFragment;
 import io.agora.chat.uikit.chat.adapter.EaseMessageAdapter;
 import io.agora.chat.uikit.chat.interfaces.OnAddMsgAttrsBeforeSendEvent;
@@ -482,7 +480,6 @@ public class EaseChatFragment extends EaseBaseFragment implements OnChatLayoutLi
             int duration = data.getIntExtra("dur", 0);
             String videoPath = data.getStringExtra("path");
             String uriString = data.getStringExtra("uri");
-            EMLog.d(TAG, "path = " + videoPath + " uriString = " + uriString);
             if (!TextUtils.isEmpty(videoPath)) {
                 chatLayout.sendVideoMessage(Uri.parse(videoPath), duration);
             } else {

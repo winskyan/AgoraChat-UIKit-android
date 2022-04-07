@@ -167,7 +167,6 @@ public class EaseMessageMenuHelper {
         mMenuItemMap.clear();
         mReactionListHeight = 0;
         mMenuListHeight = 0;
-        mEmojiContainCurrentUserMap.clear();
     }
 
     public void setMessageReactions(List<MessageReaction> messageReactions) {
@@ -178,7 +177,7 @@ public class EaseMessageMenuHelper {
         }
 
         for (MessageReaction messageReaction : messageReactions) {
-            mEmojiContainCurrentUserMap.put(messageReaction.getReaction(), messageReaction.getState());
+            mEmojiContainCurrentUserMap.put(messageReaction.getReaction(), messageReaction.isAddedBySelf());
         }
 
         mReactionAdapter.setEmojiContainCurrentUserMap(mEmojiContainCurrentUserMap);

@@ -26,6 +26,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -39,8 +43,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     // swipe refresh layout
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
     // Agora Chat SDK
-    api 'io.agora.rtc:chat-sdk:1.0.1'
+    //////////////////////////////////////////////////////////////////////////api 'io.agora.rtc:chat-sdk:1.0.1'
+    api files('libs/agorachat_1.0.1.jar')
 }
 
 //apply from: "../maven-push-release.gradle"

@@ -39,17 +39,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
     protected void onFindViewById() {
         percentageView = (TextView) findViewById(R.id.percentage);
         imageView = (ImageView) findViewById(R.id.image);
-        reactionContentView = findViewById(R.id.tv_subReactionContent);
-        reactionContainerGroup = findViewById(R.id.reaction_group);
     }
 
-
+    
     @Override
     protected void onSetUpView() {
-        if (bubbleLayout != null) {
+        if(bubbleLayout != null) {
             bubbleLayout.setBackground(null);
         }
-        onSetUpReactionView();
         imgBody = (ImageMessageBody) message.getBody();
         // received messages
         if (message.direct() == ChatMessage.Direct.RECEIVE) {
@@ -77,14 +74,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onMessageInProgress() {
-        if (message.direct() == ChatMessage.Direct.SEND) {
+        if(message.direct() == ChatMessage.Direct.SEND) {
             super.onMessageInProgress();
-        } else {
-            if (ChatClient.getInstance().getOptions().getAutodownloadThumbnail()) {
+        }else {
+            if(ChatClient.getInstance().getOptions().getAutodownloadThumbnail()){
                 //imageView.setImageResource(R.drawable.ease_default_image);
-            } else {
+            }else {
                 progressBar.setVisibility(View.INVISIBLE);
-                if (percentageView != null) {
+                if(percentageView != null) {
                     percentageView.setVisibility(View.INVISIBLE);
                 }
             }
@@ -93,6 +90,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     /**
      * load image into image view
+     *
      */
     @SuppressLint("StaticFieldLeak")
     private void showImageView(final ChatMessage message) {

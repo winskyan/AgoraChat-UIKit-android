@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +26,8 @@ import io.agora.chat.uikit.EaseUIKit;
 import io.agora.chat.uikit.R;
 import io.agora.chat.uikit.adapter.EaseBaseAdapter;
 import io.agora.chat.uikit.chat.model.EaseChatItemStyleHelper;
-import io.agora.chat.uikit.chat.widget.EaseChatMessageListLayout;
 import io.agora.chat.uikit.chat.model.EaseChatSetStyle;
+import io.agora.chat.uikit.chat.widget.EaseChatMessageListLayout;
 import io.agora.chat.uikit.chat.widget.EaseChatReactionView;
 import io.agora.chat.uikit.interfaces.MessageListItemClickListener;
 import io.agora.chat.uikit.models.EaseEmojicon;
@@ -165,6 +164,8 @@ public abstract class EaseChatRow extends LinearLayout {
         statusView = (ImageView) findViewById(R.id.msg_status);
         ackedView = (TextView) findViewById(R.id.tv_ack);
         deliveredView = (TextView) findViewById(R.id.tv_delivered);
+        reactionContentView = findViewById(R.id.tv_subReactionContent);
+        reactionContainerGroup = findViewById(R.id.reaction_group);
 
         setLayoutStyle();
 
@@ -236,7 +237,7 @@ public abstract class EaseChatRow extends LinearLayout {
     /**
      * set property according message and position
      * the method should be called by child
-     *
+     * 
      * @param message
      * @param position
      */
@@ -250,6 +251,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
         setUpBaseView();
         onSetUpView();
+        onSetUpReactionView();
         //setLayoutStyle();
         setClickListener();
     }
@@ -454,7 +456,7 @@ public abstract class EaseChatRow extends LinearLayout {
         chatCallback = new EaseChatCallback();
         if(bubbleLayout != null){
             bubbleLayout.setOnClickListener(new OnClickListener() {
-
+    
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null && itemClickListener.onBubbleClick(message)){
@@ -465,9 +467,9 @@ public abstract class EaseChatRow extends LinearLayout {
                     }
                 }
             });
-
+    
             bubbleLayout.setOnLongClickListener(new OnLongClickListener() {
-
+    
                 @Override
                 public boolean onLongClick(View v) {
                     if (itemClickListener != null) {
@@ -495,7 +497,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
         if(userAvatarView != null){
             userAvatarView.setOnClickListener(new OnClickListener() {
-
+    
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null) {
@@ -508,7 +510,7 @@ public abstract class EaseChatRow extends LinearLayout {
                 }
             });
             userAvatarView.setOnLongClickListener(new OnLongClickListener() {
-
+                
                 @Override
                 public boolean onLongClick(View v) {
                     if(itemClickListener != null){
@@ -563,14 +565,14 @@ public abstract class EaseChatRow extends LinearLayout {
             EaseReactionEmojiconEntity entity;
             EaseEmojicon emojicon;
             for (MessageReaction messageReaction : messageReactions) {
-                EMLog.i(TAG, "messageReaction msgId=" + message.getMsgId() + ",reaction=" + messageReaction.getReaction() + ",userCount=" + messageReaction.getUserCount() + ",userList=" + messageReaction.getUserList()+",state="+messageReaction.getState());
+                EMLog.i(TAG, "messageReaction msgId=" + message.getMsgId() + ",reaction=" + messageReaction.getReaction() + ",userCount=" + messageReaction.getUserCount() + ",userList=" + messageReaction.getUserList()+",isAddedBySelf="+messageReaction.isAddedBySelf());
                 entity = new EaseReactionEmojiconEntity();
                 emojicon = EaseMessageMenuData.getReactionDataMap().get(messageReaction.getReaction());
                 if (emojicon != null) {
                     entity.setEmojicon(emojicon);
                     entity.setCount(messageReaction.getUserCount());
                     entity.setUserList(messageReaction.getUserList());
-                    entity.setState(messageReaction.getState());
+                    entity.setAddedBySelf(messageReaction.isAddedBySelf());
                     list.add(entity);
                 }
             }
@@ -699,7 +701,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
     /**
      * setup view
-     *
+     * 
      */
     protected abstract void onSetUpView();
 

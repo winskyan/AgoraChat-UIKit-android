@@ -391,7 +391,7 @@ public class EaseUtils {
     }
 
     public static boolean hasKitKat() {
-        return Build.VERSION.SDK_INT >= 19;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
 }

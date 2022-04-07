@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import io.agora.chat.uikit.R;
 import io.agora.chat.uikit.base.EaseBaseActivity;
-import io.agora.chat.uikit.video.EaseImageGridFragment;
+import io.agora.chat.uikit.widget.video.EaseImageGridFragment;
 
 
 public class EaseImageGridActivity extends EaseBaseActivity {

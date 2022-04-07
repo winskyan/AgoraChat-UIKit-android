@@ -134,7 +134,11 @@ public class EaseChatReactionView extends LinearLayout implements OnItemClickLis
                 ReactionGridAdapter.setMoreTxt("...");
             }
             List<EaseReactionEmojiconEntity> dataList = new ArrayList<>(MAX_REACTION_SHOW + 1);
-            for (int i = 0; i < MAX_REACTION_SHOW + 1; i++) {
+            int length = mData.size();
+            if (length > MAX_REACTION_SHOW) {
+                length = MAX_REACTION_SHOW + 1;
+            }
+            for (int i = 0; i < length; i++) {
                 dataList.add(mData.get(i));
             }
             mListAdapter.setData(dataList);

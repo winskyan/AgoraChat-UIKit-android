@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
-
 import io.agora.chat.ChatMessage;
 import io.agora.chat.TextMessageBody;
 import io.agora.chat.uikit.R;
@@ -36,8 +35,6 @@ public class EaseChatRowText extends EaseChatRow {
 	@Override
 	protected void onFindViewById() {
 		contentView = (TextView) findViewById(R.id.tv_chatcontent);
-        reactionContentView = findViewById(R.id.tv_subReactionContent);
-        reactionContainerGroup = findViewById(R.id.reaction_group);
 	}
 
     @Override
@@ -58,8 +55,6 @@ public class EaseChatRowText extends EaseChatRow {
                 }
             });
             replaceSpan();
-
-            onSetUpReactionView();
         }
     }
 

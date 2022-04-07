@@ -34,9 +34,9 @@ import io.agora.chat.uikit.models.EaseVideoEntity;
 import io.agora.chat.uikit.utils.EaseCompat;
 import io.agora.chat.uikit.utils.EaseDateUtils;
 import io.agora.chat.uikit.utils.EaseUtils;
-import io.agora.chat.uikit.widget.EaseDividerGridItemDecoration;
-import io.agora.chat.uikit.widget.EaseRecyclingImageView;
 import io.agora.chat.uikit.widget.EaseTitleBar;
+import io.agora.chat.uikit.widget.video.EaseDividerGridItemDecoration;
+import io.agora.chat.uikit.widget.video.EaseRecyclingImageView;
 import io.agora.util.TextFormater;
 
 public class EaseImageGridFragment extends EaseBaseFragment implements OnItemClickListener {
@@ -290,7 +290,7 @@ public class EaseImageGridFragment extends EaseBaseFragment implements OnItemCli
     }
 
     private void getVideoFile() {
-        EaseVideoListViewModel viewModel = new ViewModelProvider(mContext).get(EaseVideoListViewModel.class);
+        EaseVideoListViewModel viewModel = new ViewModelProvider(this).get(EaseVideoListViewModel.class);
         viewModel.getVideoListObservable().observe(getViewLifecycleOwner(), new Observer<List<EaseVideoEntity>>() {
             @Override
             public void onChanged(List<EaseVideoEntity> easeVideoEntities) {

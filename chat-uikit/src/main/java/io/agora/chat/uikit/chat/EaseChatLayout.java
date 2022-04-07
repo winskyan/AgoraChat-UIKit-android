@@ -25,7 +25,6 @@ import java.util.List;
 
 import io.agora.ConversationListener;
 import io.agora.MessageListener;
-import io.agora.MessageReactionListener;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatManager;
 import io.agora.chat.ChatMessage;
@@ -72,7 +71,7 @@ import io.agora.util.EMLog;
 
 public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHandleMessageView, IPopupWindow
         , ChatInputMenuListener, MessageListener, EaseChatMessageListLayout.OnMessageTouchListener
-        , MessageListItemClickListener, EaseChatMessageListLayout.OnChatErrorListener, ConversationListener, MessageReactionListener {
+        , MessageListItemClickListener, EaseChatMessageListLayout.OnChatErrorListener, ConversationListener {
     private static final String TAG = EaseChatLayout.class.getSimpleName();
     private static final int MSG_TYPING_HEARTBEAT = 0;
     private static final int MSG_TYPING_END = 1;
@@ -183,7 +182,6 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
         inputMenu.setChatInputMenuListener(this);
         getChatManager().addMessageListener(this);
         getChatManager().addConversationListener(this);
-        ChatClient.getInstance().reactionManager().addMessageReactionListener(this);
     }
 
     @Override
@@ -1023,7 +1021,6 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
 
     @Override
     public void onConversationUpdate() {
-
     }
 
     @Override
@@ -1032,9 +1029,12 @@ public class EaseChatLayout extends RelativeLayout implements IChatLayout, IHand
     }
 
     @Override
-    public void onMessageReactionChange(List<MessageReactionChange> list) {
+    public void onReactionChanged(List<MessageReactionChange> list) {
+        EMLog.i(TAG, "onReactionChanged");
         for (MessageReactionChange reactionChange : list) {
-            refreshMessage(ChatClient.getInstance().chatManager().getMessage(reactionChange.getMessageId()));
+            if (conversationId.equals(reactionChange.getConversionID())) {
+                refreshMessage(ChatClient.getInstance().chatManager().getMessage(reactionChange.getMessageId()));
+            }
         }
     }
 

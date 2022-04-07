@@ -8,7 +8,7 @@ public class EaseReactionEmojiconEntity {
     private EaseEmojicon emojicon;
     private int count;
     private List<String> userList;
-    private boolean state;
+    private boolean isAddedBySelf;
 
     public EaseEmojicon getEmojicon() {
         return emojicon;
@@ -34,22 +34,21 @@ public class EaseReactionEmojiconEntity {
         this.userList = userList;
     }
 
-    public boolean isState() {
-        return state;
+    public boolean isAddedBySelf() {
+        return isAddedBySelf;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setAddedBySelf(boolean addedBySelf) {
+        isAddedBySelf = addedBySelf;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "EaseReactionEmojiconEntity{" +
                 "emojicon=" + emojicon +
                 ", count=" + count +
                 ", userList=" + userList +
-                ", state=" + state +
+                ", isAddedBySelf=" + isAddedBySelf +
                 '}';
     }
 }

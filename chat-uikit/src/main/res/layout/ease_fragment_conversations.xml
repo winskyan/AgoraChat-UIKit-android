@@ -13,8 +13,6 @@
         app:titleBarTitleTextColor="@color/color_conversation_title"
         app:titleBarDisplayHomeAsUpEnabled="false"/>
 
-
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_refresh"
         android:layout_width="match_parent"

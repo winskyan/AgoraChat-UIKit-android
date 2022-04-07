@@ -6,12 +6,10 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.text.TextUtils;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 
 import io.agora.CallBack;
-import io.agora.ValueCallBack;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
 import io.agora.chat.CmdMessageBody;
@@ -264,9 +262,9 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
 
     @Override
     public void addReaction(ChatMessage message, String reaction) {
-        ChatClient.getInstance().reactionManager().asyncAddReaction(message.getMsgId(), reaction, new ValueCallBack<String>() {
+        ChatClient.getInstance().chatManager().asyncAddReaction(message.getMsgId(), reaction, new CallBack() {
             @Override
-            public void onSuccess(String value) {
+            public void onSuccess() {
                 if (isActive()) {
                     runOnUI(() -> mView.addReactionMessageSuccess(message));
                 }
@@ -278,14 +276,19 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
                     runOnUI(() -> mView.addReactionMessageFail(message, error, errorMsg));
                 }
             }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
         });
     }
 
     @Override
     public void removeReaction(ChatMessage message, String reaction) {
-        ChatClient.getInstance().reactionManager().asyncRemoveReaction(message.getMsgId(), reaction, new ValueCallBack<String>() {
+        ChatClient.getInstance().chatManager().asyncRemoveReaction(message.getMsgId(), reaction, new CallBack() {
             @Override
-            public void onSuccess(String value) {
+            public void onSuccess() {
                 if (isActive()) {
                     runOnUI(() -> mView.removeReactionMessageSuccess(message));
                 }
@@ -297,8 +300,12 @@ public class EaseHandleMessagePresenterImpl extends EaseHandleMessagePresenter {
                     runOnUI(() -> mView.removeReactionMessageFail(message, error, errorMsg));
                 }
             }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
         });
     }
-
 }
 
