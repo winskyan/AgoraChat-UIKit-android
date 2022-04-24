@@ -14,14 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import io.agora.CallBack;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
-import io.agora.chat.MessageReaction;
 import io.agora.chat.uikit.EaseUIKit;
 import io.agora.chat.uikit.R;
 import io.agora.chat.uikit.adapter.EaseBaseAdapter;
@@ -30,10 +27,9 @@ import io.agora.chat.uikit.chat.model.EaseChatSetStyle;
 import io.agora.chat.uikit.chat.widget.EaseChatMessageListLayout;
 import io.agora.chat.uikit.chat.widget.EaseChatReactionView;
 import io.agora.chat.uikit.interfaces.MessageListItemClickListener;
-import io.agora.chat.uikit.models.EaseEmojicon;
-import io.agora.chat.uikit.models.EaseMessageMenuData;
 import io.agora.chat.uikit.models.EaseReactionEmojiconEntity;
 import io.agora.chat.uikit.options.EaseAvatarOptions;
+import io.agora.chat.uikit.options.EaseReactionOptions;
 import io.agora.chat.uikit.utils.EaseDateUtils;
 import io.agora.chat.uikit.utils.EaseUserUtils;
 import io.agora.chat.uikit.widget.EaseImageView;
@@ -113,8 +109,6 @@ public abstract class EaseChatRow extends LinearLayout {
     protected MessageListItemClickListener itemClickListener;
     private EaseChatRowActionCallback itemActionCallback;
 
-    protected View reactionContainerGroup;
-
     protected EaseChatReactionView reactionContentView;
 
     public EaseChatRow(Context context, boolean isSender) {
@@ -165,7 +159,6 @@ public abstract class EaseChatRow extends LinearLayout {
         ackedView = (TextView) findViewById(R.id.tv_ack);
         deliveredView = (TextView) findViewById(R.id.tv_delivered);
         reactionContentView = findViewById(R.id.tv_subReactionContent);
-        reactionContainerGroup = findViewById(R.id.reaction_group);
 
         setLayoutStyle();
 
@@ -554,58 +547,34 @@ public abstract class EaseChatRow extends LinearLayout {
     }
 
     protected void onSetUpReactionView() {
-        if (null == message || null == reactionContainerGroup
-                || null == reactionContentView) {
-            EMLog.i(TAG,"view is null, don't setup reaction view");
+        if (null == message || null == reactionContentView) {
+            EMLog.e(TAG, "view is null, don't setup reaction view");
             return;
         }
-        List<MessageReaction> messageReactions = message.getMessageReaction();
-        if (null != messageReactions && messageReactions.size() > 0) {
-            List<EaseReactionEmojiconEntity> list = new ArrayList<>(messageReactions.size());
-            EaseReactionEmojiconEntity entity;
-            EaseEmojicon emojicon;
-            for (MessageReaction messageReaction : messageReactions) {
-                EMLog.i(TAG, "messageReaction msgId=" + message.getMsgId() + ",reaction=" + messageReaction.getReaction() + ",userCount=" + messageReaction.getUserCount() + ",userList=" + messageReaction.getUserList()+",isAddedBySelf="+messageReaction.isAddedBySelf());
-                entity = new EaseReactionEmojiconEntity();
-                emojicon = EaseMessageMenuData.getReactionDataMap().get(messageReaction.getReaction());
-                if (emojicon != null) {
-                    entity.setEmojicon(emojicon);
-                    entity.setCount(messageReaction.getUserCount());
-                    entity.setUserList(messageReaction.getUserList());
-                    entity.setAddedBySelf(messageReaction.isAddedBySelf());
-                    list.add(entity);
-                }
-            }
-            if (0 != list.size()) {
-                if (View.VISIBLE != reactionContainerGroup.getVisibility()) {
-                    reactionContainerGroup.setVisibility(View.VISIBLE);
-                }
-                reactionContentView.updateData(list, message.getMsgId());
-                reactionContentView.setOnReactionItemListener(new EaseChatReactionView.OnReactionItemListener() {
-                    @Override
-                    public void removeReaction(EaseReactionEmojiconEntity reactionEntity) {
-                        if (itemClickListener != null) {
-                            itemClickListener.onRemoveReaction(message, reactionEntity);
-                        }
-                    }
 
-                    @Override
-                    public void addReaction(EaseReactionEmojiconEntity reactionEntity) {
-                        if (itemClickListener != null) {
-                            itemClickListener.onAddReaction(message, reactionEntity);
-                        }
-                    }
-                });
-            } else {
-                if (View.GONE != reactionContainerGroup.getVisibility()) {
-                    reactionContainerGroup.setVisibility(View.GONE);
+        EaseReactionOptions reactionOptions = EaseUIKit.getInstance().getReactionOptions();
+        if (null == reactionOptions || !reactionOptions.isOpen()) {
+            EMLog.i(TAG, "reaction option don't show reaction view");
+            reactionContentView.setVisibility(GONE);
+            return;
+        }
+
+        reactionContentView.updateMessageInfo(message);
+        reactionContentView.setOnReactionItemListener(new EaseChatReactionView.OnReactionItemListener() {
+            @Override
+            public void removeReaction(EaseReactionEmojiconEntity reactionEntity) {
+                if (itemClickListener != null) {
+                    itemClickListener.onRemoveReaction(message, reactionEntity);
                 }
             }
-        } else {
-            if (View.GONE != reactionContainerGroup.getVisibility()) {
-                reactionContainerGroup.setVisibility(View.GONE);
+
+            @Override
+            public void addReaction(EaseReactionEmojiconEntity reactionEntity) {
+                if (itemClickListener != null) {
+                    itemClickListener.onAddReaction(message, reactionEntity);
+                }
             }
-        }
+        });
     }
 
     private class EaseChatCallback implements CallBack {

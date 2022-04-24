@@ -77,7 +77,8 @@ public interface MessageListItemClickListener {
 	 * @param message
 	 * @param reactionEntity
 	 */
-	void onRemoveReaction(ChatMessage message, EaseReactionEmojiconEntity reactionEntity);
+	default void onRemoveReaction(ChatMessage message, EaseReactionEmojiconEntity reactionEntity) {
+	}
 
 	/**
 	 * add reaction
@@ -85,5 +86,6 @@ public interface MessageListItemClickListener {
 	 * @param message
 	 * @param reactionEntity
 	 */
-	void onAddReaction(ChatMessage message, EaseReactionEmojiconEntity reactionEntity);
+	default void onAddReaction(ChatMessage message, EaseReactionEmojiconEntity reactionEntity) {
+	}
 }

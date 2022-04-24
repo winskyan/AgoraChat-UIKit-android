@@ -82,4 +82,8 @@
     <string name="action_reaction">Reactions</string>
     <string name="ease_title_image_grid">Camera and Video</string>
     <string name="ease_take_video_capture">Shoot video</string>
+
+    <string name="ease_number_ninety_nine_more">99+</string>
+    <string name="ease_number_point_ninety_nine_more">&#183;&#183;&#183; 99+</string>
+    <string name="ease_number_more">&#183;&#183;&#183; %1$d</string>
 </resources>
