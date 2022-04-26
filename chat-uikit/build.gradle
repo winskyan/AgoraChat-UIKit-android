@@ -43,10 +43,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     // swipe refresh layout
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
     // Agora Chat SDK
-    //////////////////////////////////////////////////////////////////////////api 'io.agora.rtc:chat-sdk:1.0.1'
-    api files('libs/agorachat_1.0.1.jar')
+    ////api 'io.agora.rtc:chat-sdk:1.0.1'
+	api files('libs/agorachat_3.9.0.jar')
+	api files('libs/agorachat_3.9.0.jar')
 }
 
 //apply from: "../maven-push-release.gradle"

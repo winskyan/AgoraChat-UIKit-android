@@ -6,6 +6,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.text.TextUtils;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 
